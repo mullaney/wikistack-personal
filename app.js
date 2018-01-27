@@ -4,6 +4,8 @@ const morgan      = require('morgan');
 const bodyParser  = require('body-parser');
 const path        = require('path');
 const nunjucks    = require('nunjucks');
+const { db }      = require('./models');
+const FORCE_SYNC  = true;
 const PORT        = 3000;
 
 app.use(morgan('dev')); // logging
@@ -26,6 +28,12 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || 'Internal Error' );
 })
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+db.sync({ force: FORCE_SYNC })
+.then(() => {
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
+})
+.catch(err => {
+  console.log(err)
+})
