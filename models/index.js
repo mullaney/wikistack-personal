@@ -1,5 +1,7 @@
-const Sequelize = require('sequelize');
-const db        = new Sequelize('postgres://localhost:5432/wikistackp');
+const Sequelize     = require('sequelize');
+const db            = new Sequelize('postgres://localhost:5432/wikistackp', {
+  logging: false
+});
 
 const User = db.define('user', {
   name: {
@@ -39,6 +41,12 @@ const Page = db.define('page', {
     type: Sequelize.VIRTUAL,
     get() {
       return `/wiki/${this.urlTitle}`
+    }
+  }
+}, {
+  hooks: {
+    beforeValidate: (page, options) => {
+      page.urlTitle = page.title.toLowerCase().replace(/\s+/g, '_').replace(/\W/g, '');
     }
   }
 });

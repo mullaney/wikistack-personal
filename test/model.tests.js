@@ -59,3 +59,31 @@ describe('Page model', () => {
     });
   })
 });
+
+describe('Page hooks', () => {
+  describe('beforeValidate', () => {
+    let newPage;
+    beforeEach(() => {
+      return Page.sync({ force: true })
+      .then(() => {
+        return Page.create({
+          title: 'Another Example Page!',
+          content: '# Example page',
+          status: 'closed'
+        });
+      })
+      .then(p => {
+        newPage = p;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    });
+    it('should be set at validation based on title', () => {
+      newPage.save()
+      .then(page => {
+        expect(page.urlTitle).to.equal('another_example_page');
+      })
+    });
+  });
+})
