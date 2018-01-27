@@ -27,7 +27,8 @@ app.get('/', function(req, res, done) {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   if (!err.message) err.message = 'Internal Error'
-  res.status(err.status || 500).render('error');
+  res.status(err.status || 500)
+  res.render('error', { err });
 })
 
 module.exports = app;

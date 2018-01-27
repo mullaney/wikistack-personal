@@ -32,5 +32,7 @@ router.post('/', function (req, res, next) {
   .then(page => {
     res.redirect(page.route);
   })
-  .catch(next);
+  .catch(err => {
+    next(err);
+  });
 });
