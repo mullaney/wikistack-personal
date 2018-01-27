@@ -53,4 +53,9 @@ describe('Page model', () => {
       expect(page.status).to.equal('closed');
     });
   });
+  describe('virtual route', () => {
+    it('should exist', () => {
+      expect(page.route).to.equal('/wiki/example_page');
+    });
+  })
 });
