@@ -1,34 +1,56 @@
 const { expect } = require('chai');
-
-describe('True', () => {
-  it('should be true', () => {
-    expect(true).to.equal(true);
-  });
-})
-
-// example of handing basic validation tests:
+const { User, Page }   = require('../models');
 
 describe('User model', () => {
   let user = {};
   beforeEach((done) => {
     user = User.build({
-      username: 'Fred'
+      name: 'Fred',
+      email: 'fred@example.com'
     });
     done();
   });
-  describe('username', () => {
+  describe('name', () => {
     it('should exist', () => {
-      expect(user.username).to.equal('Fred');
+      expect(user.name).to.equal('Fred');
     });
-    it('should not be null', () => {
-      user.username = null;
-      user.validate()
-      .then(() => {
-        throw new Error('Validated with null username')
-      })
-      .catch(err => {
-        expect(err.message).to.not.equal('Validated with null username');
-      });
+  });
+  describe('email', () => {
+    it('should exist', () => {
+      expect(user.email).to.equal('fred@example.com');
+    });
+  });
+});
+
+describe('Page model', () => {
+  let page = {};
+  beforeEach((done) => {
+    page = Page.build({
+      title: 'Example Page!',
+      urlTitle: 'example_page',
+      content: '# Example page',
+      status: 'closed'
+    });
+    done();
+  })
+  describe('title', () => {
+    it('should exist', () => {
+      expect(page.title).to.equal('Example Page!');
+    })
+  });
+  describe('urlTitle', () => {
+    it('should exist', () => {
+      expect(page.urlTitle).to.equal('example_page');
+    });
+  });
+  describe('content', () => {
+    it('should exist', () => {
+      expect(page.content).to.equal('# Example page');
+    });
+  });
+  describe('status', () => {
+    it('should exist', () => {
+      expect(page.status).to.equal('closed');
     });
   });
 });
