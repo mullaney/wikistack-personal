@@ -25,10 +25,23 @@ app.get('/', function(req, res, done) {
 })
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  if (!err.message) err.message = 'Internal Error'
-  res.status(err.status || 500)
-  res.render('error', { err });
+  res.status(err.status || 500);
+  if (!err.message) {
+    err.message = 'Internal Error'
+  } else if (err.message.match(/Validation error/)) {
+    res.render('addpage', {
+      page: {
+        title: req.body.title,
+        content: req.body.content
+      },
+      message: {
+        type: 'error-message',
+        content: 'Validation error, most likely a duplicate title. Please try another title.'
+      }
+    });
+  } else {
+    res.render('error', { err });
+  }
 })
 
 module.exports = app;

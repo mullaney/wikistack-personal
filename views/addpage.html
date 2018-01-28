@@ -2,6 +2,7 @@
 
 {% block content %}
   <h3>Add a Page</h3>
+  <div id="message">{{message}}</div>
   <hr>
   <form method="POST" action="/wiki/">
     <label for="username">Your Name</label>
@@ -11,10 +12,10 @@
     <input name="email" type="text" placeholder="you@example.com"/>
 
     <label for="title">Page Title</label>
-    <input name="title" type="text" placeholder="title"/>
+    <input name="title" type="text" placeholder="title" required value="{{page.title}}"/>
 
     <label for="content">Page Contents</label>
-    <textarea name="content" type="text"/></textarea>
+    <textarea name="content" type="text" required/>{{page.content}}</textarea>
 
     <div>PLACEHOLDER FOR PAGE STATUS INPUT FIELD</div>
 

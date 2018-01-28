@@ -25,14 +25,12 @@ router.get('/:urlTitle', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  Page.create({
+  return Page.create({
     title: req.body.title,
     content: req.body.content
   })
-  .then(page => {
-    res.redirect(page.route);
+  .then(createdPage => {
+    res.redirect(createdPage.route);
   })
-  .catch(err => {
-    next(err);
-  });
+  .catch(next);
 });

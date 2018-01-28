@@ -25,3 +25,14 @@ textarea {
 button {
   margin-top: 1em;
 }
+
+.error-message {
+  border: 1px solid red;
+  background-color: #ffcccc;
+  color: #99000;
+}
+
+#message {
+  padding: 1em;
+  margin-top: 1em;
+}
