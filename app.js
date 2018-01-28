@@ -5,6 +5,7 @@ const bodyParser  = require('body-parser');
 const path        = require('path');
 const nunjucks    = require('nunjucks');
 const wikiRouter  = require('./routes/wiki');
+const { Page }      = require('./models');
 
 // app.use(morgan('dev')); // logging
 
@@ -19,9 +20,12 @@ app.engine('html', nunjucks.render);
 
 app.use('/wiki', wikiRouter)
 
-app.get('/', function(req, res, done) {
-  res.render('index.html');
-  done();
+app.get('/', function(req, res, next) {
+  Page.findAll()
+  .then(pages => {
+    res.render('index', { pages });
+  })
+  .catch(next);
 })
 
 app.use((err, req, res, next) => {
