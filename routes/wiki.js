@@ -24,7 +24,7 @@ router.get('/:urlTitle', function (req, res, next) {
   })
 });
 
-router.post('/', function (req, res, next) {
+router.post('/add', function (req, res, next) {
   return Page.create({
     title: req.body.title,
     content: req.body.content

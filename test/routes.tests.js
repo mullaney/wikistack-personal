@@ -23,19 +23,6 @@ describe('Routes', () => {
         .end(done)
       });
     });
-    describe('POST', () => {
-      before(() => {
-        return Page.sync({force: true});
-      });
-      it('with valid content should redirect to proper page', (done) => {
-        agent
-        .post('/wiki')
-        .send({ title: 'New page title!', content: 'some new content' })
-        .expect('location', '/wiki/new_page_title')
-        .expect(302)
-        .end(done)
-      });
-    });
   });
   describe('/wiki/add', () => {
     describe('GET', () => {
@@ -44,6 +31,19 @@ describe('Routes', () => {
         .get('/wiki/add')
         .expect('Content-Type', /html/)
         .expect(200, done);
+      });
+    });
+    describe('POST', () => {
+      before(() => {
+        return Page.sync({force: true});
+      });
+      it('with valid content should redirect to proper page', (done) => {
+        agent
+        .post('/wiki/add')
+        .send({ title: 'New page title!', content: 'some new content' })
+        .expect('location', '/wiki/new_page_title')
+        .expect(302)
+        .end(done)
       });
     });
   });
