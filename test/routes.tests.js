@@ -40,7 +40,12 @@ describe('Routes', () => {
       it('with valid content should redirect to proper page', (done) => {
         agent
         .post('/wiki/add')
-        .send({ title: 'New page title!', content: 'some new content' })
+        .send({
+          title: 'New page title!',
+          content: 'some new content',
+          username: 'mark',
+          email: 'mark@example.com'
+        })
         .expect('location', '/wiki/new_page_title')
         .expect(302)
         .end(done)

@@ -5,6 +5,7 @@ const bodyParser  = require('body-parser');
 const path        = require('path');
 const nunjucks    = require('nunjucks');
 const wikiRouter  = require('./routes/wiki');
+const userRouter  = require('./routes/user');
 const { Page }      = require('./models');
 
 // app.use(morgan('dev')); // logging
@@ -18,7 +19,8 @@ const env = nunjucks.configure('views', { noCache: true });
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 
-app.use('/wiki', wikiRouter)
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 
 app.get('/', function(req, res, next) {
   Page.findAll()

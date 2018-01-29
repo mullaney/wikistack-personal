@@ -32,7 +32,7 @@ const Page = db.define('page', {
     allowNull: false
   },
   status: {
-    type: Sequelize.ENUM('open', 'closed')
+    type: Sequelize.ENUM(['open', 'closed'])
   },
   date: {
     type: Sequelize.DATE,
@@ -46,10 +46,12 @@ const Page = db.define('page', {
   }
 }, {
   hooks: {
-    beforeValidate: (page, options) => {
+    beforeValidate: (page) => {
       page.urlTitle = page.title.toLowerCase().replace(/\s+/g, '_').replace(/\W/g, '');
     }
   }
 });
+
+Page.belongsTo(User, {as: 'author'})
 
 module.exports = { db, User, Page };

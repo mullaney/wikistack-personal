@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var models = require('../models');
-var Page = models.Page;
+const express = require('express');
+const router = express.Router();
+const { Page, User } = require('../models');
+
 module.exports = router;
 
 router.get('/', function (req, res, next) {
@@ -22,15 +22,28 @@ router.get('/:urlTitle', function (req, res, next) {
     res.status(200);
     res.render('wikipage', { page });
   })
+  .catch(next);
 });
 
 router.post('/add', function (req, res, next) {
-  return Page.create({
-    title: req.body.title,
-    content: req.body.content
+  // console.log(req.body.name);
+  return User.findOrCreate({
+    where: {
+      name: req.body.username,
+      email: req.body.email
+    }
   })
-  .then(createdPage => {
-    res.redirect(createdPage.route);
+  .then((userArray) => {
+    let user = userArray[0];
+    return Page.create({
+      title: req.body.title,
+      content: req.body.content,
+      authorId: user.id
+    })
+    .then(createdPage => {
+      res.redirect(createdPage.route);
+    })
+    .catch(next);
   })
   .catch(next);
 });
